@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+    directory: "/"
+    schedule:
+      interval: weekly
+      time: "04:00"
+    allow:
+      - dependency-type: direct
+      - dependency-type: indirect
+    groups:
+      python-packages:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "Deps"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "04:00"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+    commit-message:
+      prefix: "Deps"

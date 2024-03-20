@@ -1,0 +1,32 @@
+name: Release Python package
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      release-type:
+        type: choice
+        description: What kind of release do you want to do?
+        options:
+          - calendar
+          - patch
+          - minor
+          - major
+      release-version:
+        type: string
+        description: Set an explicit version, that will overwrite release-type. Fails if version is not compliant.
+
+# don't run two release processes at the same time
+# but also don't cancel already running workflow because it might already be to late
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  build-and-release:
+    name: Create a new release
+    uses: greenbone/workflows/.github/workflows/release-python.yml@main
+    secrets: inherit
+    with:
+      release-version: ${{ inputs.release-version }}
+      release-type: ${{ inputs.release-type }}

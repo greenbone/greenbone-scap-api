@@ -1,0 +1,20 @@
+name: Deploy on PyPI
+
+# uploads the Python package via trusted publisher (OIDC) https://docs.pypi.org/trusted-publishers/
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    environment:
+      # requires to create a GitHub environment named pypi
+      name: pypi
+      url: https://pypi.org/project/example/ # FIXME
+    steps:
+      - name: Build and publish to PyPI
+        uses: greenbone/actions/pypi-upload@v3
