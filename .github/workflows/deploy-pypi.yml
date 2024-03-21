@@ -18,3 +18,5 @@ jobs:
     steps:
       - name: Build and publish to PyPI
         uses: greenbone/actions/pypi-upload@v3
+        with:
+          python-version: "3.11"
