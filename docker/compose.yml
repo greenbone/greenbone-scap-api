@@ -1,0 +1,45 @@
+name: greenbone-scap
+
+services:
+  db:
+    image: postgres:15-bookworm
+    restart: always
+    environment:
+      POSTGRES_DB: scap
+      POSTGRES_USER: scap
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  cve:
+    image: ghcr.io/greenbone/greenbone-scap
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: scap
+      DATABASE_USER: scap
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      NVD_API_KEY: ${NVD_API_KEY}
+    volumes:
+      - data:/mnt/data
+    command: ["greenbone-cve-download", "--since-from-file", "/mnt/data/last-cve-download", "--store-runtime", "/mnt/data/last-cve-download"]
+
+  cve-api:
+    image: ghcr.io/greenbone/greenbone-scap-api
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_NAME: scap
+      DATABASE_USER: scap
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      API_HOST: 0.0.0.0
+    ports:
+      - 8000:8000
+
+volumes:
+  postgres:
+  data:

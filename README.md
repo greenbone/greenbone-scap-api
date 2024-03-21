@@ -18,6 +18,7 @@ at https://services.nvd.nist.gov/rest/json/cves/2.0.
   - [Install using pip](#install-using-pip)
 - [Usage](#usage)
 - [Settings](#settings)
+- [Docker Compose](#docker-compose)
 - [Development](#development)
 - [Maintainer](#maintainer)
 - [License](#license)
@@ -63,7 +64,7 @@ Using uvicorn directly allows for more flexibility regarding the [settings](http
 for serving the API.
 
 After starting the web server the CVE API is available at `http://127.0.0.1:8000/cves`
-by default. [Interactive API docs](https://github.com/swagger-api/swagger-ui)
+(by default). [Interactive API docs](https://github.com/swagger-api/swagger-ui)
 are served at `http://127.0.0.1:8000/docs`.
 
 ## Settings
@@ -81,6 +82,33 @@ are served at `http://127.0.0.1:8000/docs`.
 | API_HOST          | IP address or DNS name to listen on                                                                   | 127.0.0.1 |
 | API_PORT          | Port to listen on                                                                                     | 8000      |
 | LOG_LEVEL         | Log level for server output. Options are `critical`, `error`, `warning`, `info`, `debug` and `trace`. | `info`    |
+
+## Docker Compose
+
+The API is easiest to use via the provided [docker compose](https://docs.docker.com/compose/)
+file. [The compose file](./docker/compose.yml) extends the compose file of
+[greenbone-scap](https://github.com/greenbone/greenbone-scap/blob/main/docker/compose.yml).
+Please take a look at the [README of greenbone-scap](https://github.com/greenbone/greenbone-scap?tab=readme-ov-file#docker-compose)
+for the initial setup of the containers.
+
+For a quick setup the following commands can be used:
+
+```sh
+cd docker
+echo "DATABASE_PASSWORD=my-super-safe-password" > .env
+docker compose up
+```
+
+After starting the containers the CVE API is available at `http://127.0.0.1:8000/cves`
+(by default). [Interactive API docs](https://github.com/swagger-api/swagger-ui)
+are served at `http://127.0.0.1:8000/docs`.
+
+> [!NOTE]
+> On the initial startup all CVE will be downloaded from the [NIST NVD API](https://services.nvd.nist.gov/rest/json/cves/2.0).
+> Downloading the data may take several hours and due to unreliable servers at
+> NIST may even fail. After a successful full download of the data at NIST, only
+> the changed and new CVEs will be downloaded. To trigger a download
+> `docker compose up cve` can be used.
 
 ## Development
 
