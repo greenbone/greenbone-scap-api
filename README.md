@@ -6,10 +6,10 @@
 [![PyPI release](https://img.shields.io/pypi/v/greenbone-scap-api.svg)](https://pypi.org/project/greenbone-scap-api/)
 
 A REST API on top of [greenbone-scap](https://github.com/greenbone/greenbone-scap)
-based on [FastAPI](https://fastapi.tiangolo.com/).
+based on [FastAPI](https://fastapi.tiangolo.com/) to mirror the [NIST NVD CVE API].
 
-It provides a similar CVE API to [NVD NIST](https://nvd.nist.gov/developers/vulnerabilities)
-at https://services.nvd.nist.gov/rest/json/cves/2.0.
+It provides a very similar CVE API compared to [NVD NIST](https://nvd.nist.gov/developers/vulnerabilities)
+at [https://services.nvd.nist.gov/rest/json/cves/2.0][NIST NVD CVE API].
 
 ## Table of Contents <!-- omit in toc -->
 
@@ -104,7 +104,7 @@ After starting the containers the CVE API is available at `http://127.0.0.1:8000
 are served at `http://127.0.0.1:8000/docs`.
 
 > [!NOTE]
-> On the initial startup all CVE will be downloaded from the [NIST NVD API](https://services.nvd.nist.gov/rest/json/cves/2.0).
+> On the initial startup all CVE will be downloaded from the [NIST NVD CVE API]
 > Downloading the data may take several hours and due to unreliable servers at
 > NIST may even fail. After a successful full download of the data at NIST, only
 > the changed and new CVEs will be downloaded. To trigger a download
@@ -152,3 +152,4 @@ Licensed under the [GNU Affero General Public License v3.0 or later](LICENSE).
 [pipx]: https://pypa.github.io/pipx/
 [autohooks]: https://github.com/greenbone/autohooks
 [pypi]: https://pypi.org
+[NIST NVD CVE API]: https://services.nvd.nist.gov/rest/json/cves/2.0
