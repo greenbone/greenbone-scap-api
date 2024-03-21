@@ -14,7 +14,7 @@ jobs:
     environment:
       # requires to create a GitHub environment named pypi
       name: pypi
-      url: https://pypi.org/project/example/ # FIXME
+      url: https://pypi.org/project/greenbone-scap-api/
     steps:
       - name: Build and publish to PyPI
         uses: greenbone/actions/pypi-upload@v3
