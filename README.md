@@ -2,6 +2,9 @@
 
 # greenbone-scap-api <!-- omit in toc -->
 
+[![GitHub releases](https://img.shields.io/github/release/greenbone/greenbone-scap-api.svg)](https://github.com/greenbone/greenbone-scap-api/releases)
+[![PyPI release](https://img.shields.io/pypi/v/greenbone-scap-api.svg)](https://pypi.org/project/greenbone-scap-api/)
+
 A REST API on top of [greenbone-scap](https://github.com/greenbone/greenbone-scap)
 based on [FastAPI](https://fastapi.tiangolo.com/).
 
