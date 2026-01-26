@@ -6,10 +6,10 @@ import os
 from typing import Annotated, AsyncGenerator
 
 from fastapi import Depends
-
-from greenbone.scap.api.errors import InvalidSettingError
 from greenbone.scap.cve.manager import CVEManager
 from greenbone.scap.db import PostgresDatabase
+
+from greenbone.scap.api.errors import InvalidSettingError
 
 POSTGRES_USER = os.environ.get("DATABASE_USER", "scap")
 POSTGRES_DATABASE = os.environ.get("DATABASE_NAME", "scap")
