@@ -240,8 +240,8 @@ async def cves(
     * Filtering by [virtualMatchString](https://nvd.nist.gov/developers/vulnerabilities#cves-virtualMatchString) -
       Same as cpeName.
     """
-    no_rejected: bool = no_rejected is not None
-    keyword_exact_match: bool = keyword_exact_match is not None
+    no_rejected: bool = no_rejected is not None  # type: ignore[no-redef]
+    keyword_exact_match: bool = keyword_exact_match is not None  # type: ignore[no-redef]
     keywords = (
         keyword_search.split()
         if keyword_search and not keyword_exact_match
@@ -262,7 +262,11 @@ async def cves(
         cvss_v3_severity=cvss_v3_severity,
     )
     cves = await get_cve_items(
-        manager, **filter_args, cve_id=cve_id, limit=results_per_page, index=start_index  # type: ignore[arg-type]
+        manager,
+        **filter_args,  # type: ignore[arg-type]
+        cve_id=cve_id,
+        limit=results_per_page,
+        index=start_index,  # type: ignore[arg-type]
     )
     return CVEResponse(
         results_per_page=1 if cve_id else results_per_page,
