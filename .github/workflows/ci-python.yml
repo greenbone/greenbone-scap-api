@@ -15,13 +15,16 @@ jobs:
         python-version:
           - "3.11"
           - "3.12"
+          - "3.13"
+          - "3.14"
     steps:
       - uses: actions/checkout@v7
       - name: Install and check with black, pylint and pontos.version
         uses: greenbone/actions/lint-python@v3
         with:
           packages: greenbone
-          linter: ruff check
+          linter: ruff check --diff
+          formatter: ruff format --diff
           python-version: ${{ matrix.python-version }}
 
   test:
@@ -32,6 +35,8 @@ jobs:
         python-version:
           - "3.11"
           - "3.12"
+          - "3.13"
+          - "3.14"
     steps:
       - uses: actions/checkout@v7
       - name: Install python, poetry and dependencies
@@ -49,6 +54,8 @@ jobs:
         python-version:
           - "3.11"
           - "3.12"
+          - "3.13"
+          - "3.14"
     steps:
       - uses: actions/checkout@v7
       - name: Run mypy
