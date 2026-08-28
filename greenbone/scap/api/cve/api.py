@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Annotated
 
 from fastapi import APIRouter, Query
@@ -247,20 +247,20 @@ async def cves(
         if keyword_search and not keyword_exact_match
         else keyword_search
     )
-    filter_args = dict(
-        last_modification_start_date=last_modification_start_date,
-        last_modification_end_date=last_modification_end_date,
-        published_start_date=published_start_date,
-        published_end_date=published_end_date,
-        source_identifier=source_identifier,
-        no_rejected=no_rejected,
-        keywords=keywords,
-        cwe_id=cwe_id,
-        cvss_v2_vector=cvss_v2_vector,
-        cvss_v3_vector=cvss_v3_vector,
-        cvss_v2_severity=cvss_v2_severity,
-        cvss_v3_severity=cvss_v3_severity,
-    )
+    filter_args = {
+        "last_modification_start_date": last_modification_start_date,
+        "last_modification_end_date": last_modification_end_date,
+        "published_start_date": published_start_date,
+        "published_end_date": published_end_date,
+        "source_identifier": source_identifier,
+        "no_rejected": no_rejected,
+        "keywords": keywords,
+        "cwe_id": cwe_id,
+        "cvss_v2_vector": cvss_v2_vector,
+        "cvss_v3_vector": cvss_v3_vector,
+        "cvss_v2_severity": cvss_v2_severity,
+        "cvss_v3_severity": cvss_v3_severity,
+    }
     cves = await get_cve_items(
         manager,
         **filter_args,  # type: ignore[arg-type]
@@ -272,6 +272,6 @@ async def cves(
         results_per_page=1 if cve_id else results_per_page,
         total_results=await manager.count(**filter_args, cve_ids=cve_id),
         start_index=start_index,
-        timestamp=datetime.now(),
+        timestamp=datetime.now(tz=UTC),
         vulnerabilities=cves,
     )

@@ -3,7 +3,8 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 import os
-from typing import Annotated, AsyncGenerator
+from collections.abc import AsyncGenerator
+from typing import Annotated
 
 from fastapi import Depends
 from greenbone.scap.cve.manager import CVEManager
