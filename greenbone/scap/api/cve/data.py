@@ -2,8 +2,8 @@
 #
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
+from collections.abc import Iterable
 from datetime import datetime
-from typing import Iterable
 
 from greenbone.scap.cve.manager import CVEManager
 from greenbone.scap.cve.models import (
