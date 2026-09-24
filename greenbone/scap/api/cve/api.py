@@ -85,12 +85,21 @@ CVSS_V3_VECTOR_DESCRIPTION = (
     "This parameter returns only the CVEs that match the provided **CVSSv3 "
     "vector**. Either full or partial vector strings may be used."
 )
+CVSS_V4_VECTOR_DESCRIPTION = (
+    "This parameter returns only the CVEs that match the provided **CVSSv4 "
+    "vector**. Either full or partial vector strings may be used."
+)
 CVSS_V2_SEVERITY_DESCRIPTION = (
     "This parameter returns only the CVEs that match the provided **CVSSv2 "
     "qualitative severity rating**. Values can be `LOW`, `MEDIUM` or `HIGH`."
 )
 CVSS_V3_SEVERITY_DESCRIPTION = (
     "This parameter returns only the CVEs that match the provided **CVSSv3 "
+    "qualitative severity rating**. Values can be `LOW`, `MEDIUM`, `HIGH` and "
+    "`CRITICAL`."
+)
+CVSS_V4_SEVERITY_DESCRIPTION = (
+    "This parameter returns only the CVEs that match the provided **CVSSv4 "
     "qualitative severity rating**. Values can be `LOW`, `MEDIUM`, `HIGH` and "
     "`CRITICAL`."
 )
@@ -175,6 +184,10 @@ async def cves(
         str | None,
         Query(alias="cvssV3Metrics", description=CVSS_V3_VECTOR_DESCRIPTION),
     ] = None,
+    cvss_v4_vector: Annotated[
+        str | None,
+        Query(alias="cvssV4Metrics", description=CVSS_V4_VECTOR_DESCRIPTION),
+    ] = None,
     cvss_v2_severity: Annotated[
         str | None,
         Query(alias="cvssV2Severity", description=CVSS_V2_SEVERITY_DESCRIPTION),
@@ -182,6 +195,10 @@ async def cves(
     cvss_v3_severity: Annotated[
         str | None,
         Query(alias="cvssV3Severity", description=CVSS_V3_SEVERITY_DESCRIPTION),
+    ] = None,
+    cvss_v4_severity: Annotated[
+        str | None,
+        Query(alias="cvssV4Severity", description=CVSS_V4_SEVERITY_DESCRIPTION),
     ] = None,
     manager: CVEManagerDependency,
 ) -> CVEResponse:
@@ -258,8 +275,10 @@ async def cves(
         "cwe_id": cwe_id,
         "cvss_v2_vector": cvss_v2_vector,
         "cvss_v3_vector": cvss_v3_vector,
+        "cvss_v4_vector": cvss_v4_vector,
         "cvss_v2_severity": cvss_v2_severity,
         "cvss_v3_severity": cvss_v3_severity,
+        "cvss_v4_severity": cvss_v4_severity,
     }
     cves = await get_cve_items(
         manager,
