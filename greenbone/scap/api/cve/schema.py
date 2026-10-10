@@ -4,10 +4,9 @@
 
 from datetime import date, datetime
 from enum import StrEnum
-from typing import Annotated
 from uuid import UUID
 
-from pydantic import AliasGenerator, AnyUrl, ConfigDict, UrlConstraints
+from pydantic import AliasGenerator, AnyUrl, ConfigDict
 from pydantic import BaseModel as PydanticBaseModel
 from pydantic.alias_generators import to_camel
 
@@ -103,6 +102,52 @@ class CVSSv3Metric(BaseModel):
     cvss_data: CVSSv3Data
 
 
+class CVSSv4Data(BaseModel):
+    vector_string: str
+    version: str
+    base_score: float
+    base_severity: str
+    attack_vector: str | None
+    attack_complexity: str | None
+    attack_requirements: str | None
+    privileges_required: str | None
+    user_interaction: str | None
+    vuln_confidentiality_impact: str | None
+    vuln_integrity_impact: str | None
+    vuln_availability_impact: str | None
+    sub_confidentiality_impact: str | None
+    sub_integrity_impact: str | None
+    sub_availability_impact: str | None
+    exploit_maturity: str | None
+    confidentiality_requirement: str | None
+    integrity_requirement: str | None
+    availability_requirement: str | None
+    modified_attack_vector: str | None
+    modified_attack_complexity: str | None
+    modified_attack_requirements: str | None
+    modified_privileges_required: str | None
+    modified_user_interaction: str | None
+    modified_vuln_integrity_impact: str | None
+    modified_vuln_availability_impact: str | None
+    modified_vuln_confidentiality_impact: str | None
+    modified_sub_integrity_impact: str | None
+    modified_sub_availability_impact: str | None
+    modified_sub_confidentiality_impact: str | None
+    safety: str | None
+    automatable: str | None
+    recovery: str | None
+    value_density: str | None
+    vulnerability_response_effort: str | None
+    provider_urgency: str | None
+
+
+class CVSSv4Metric(BaseModel):
+    source: str
+    type: str
+
+    cvss_data: CVSSv4Data
+
+
 class Description(BaseModel):
     lang: str
     value: str
@@ -121,9 +166,7 @@ class Weakness(BaseModel):
     description: list[Description]
 
 
-ReferenceUrl = Annotated[
-    AnyUrl, UrlConstraints(allowed_schemes=["http", "https", "ftp", "ftps"])
-]
+ReferenceUrl = AnyUrl
 
 
 class Reference(BaseModel):
@@ -165,6 +208,7 @@ class Metrics(BaseModel):
     cvss_metric_v2: list[CVSSv2Metric]
     cvss_metric_v30: list[CVSSv3Metric]
     cvss_metric_v31: list[CVSSv3Metric]
+    cvss_metric_v40: list[CVSSv4Metric]
 
 
 class VulnStatus(StrEnum):
