@@ -10,6 +10,7 @@ from greenbone.scap.cve.models import (
     CVEModel,
     CVSSv2MetricModel,
     CVSSv3MetricModel,
+    CVSSv4MetricModel,
 )
 
 from .schema import (
@@ -19,6 +20,8 @@ from .schema import (
     CVSSv2Metric,
     CVSSv3Data,
     CVSSv3Metric,
+    CVSSv4Data,
+    CVSSv4Metric,
     Metrics,
 )
 
@@ -100,6 +103,51 @@ def _convert_cvss_v3(cvss: CVSSv3MetricModel) -> CVSSv3Metric:
     )
 
 
+def _convert_cvss_v4(cvss: CVSSv4MetricModel) -> CVSSv4Metric:
+    return CVSSv4Metric(
+        source=cvss.source,
+        type=cvss.type,
+        cvss_data=CVSSv4Data(
+            vector_string=cvss.vector_string,
+            version=cvss.version,
+            base_score=cvss.base_score,
+            base_severity=cvss.base_severity,
+            attack_vector=cvss.attack_vector,
+            attack_complexity=cvss.attack_complexity,
+            attack_requirements=cvss.attack_requirements,
+            privileges_required=cvss.privileges_required,
+            user_interaction=cvss.user_interaction,
+            vuln_confidentiality_impact=cvss.vuln_confidentiality_impact,
+            vuln_integrity_impact=cvss.vuln_integrity_impact,
+            vuln_availability_impact=cvss.vuln_availability_impact,
+            sub_confidentiality_impact=cvss.sub_confidentiality_impact,
+            sub_integrity_impact=cvss.sub_integrity_impact,
+            sub_availability_impact=cvss.sub_availability_impact,
+            exploit_maturity=cvss.exploit_maturity,
+            confidentiality_requirement=cvss.confidentiality_requirement,
+            integrity_requirement=cvss.integrity_requirement,
+            availability_requirement=cvss.availability_requirement,
+            modified_attack_vector=cvss.modified_attack_vector,
+            modified_attack_complexity=cvss.modified_attack_complexity,
+            modified_attack_requirements=cvss.modified_attack_requirements,
+            modified_privileges_required=cvss.modified_privileges_required,
+            modified_user_interaction=cvss.modified_user_interaction,
+            modified_vuln_integrity_impact=cvss.modified_vuln_integrity_impact,
+            modified_vuln_availability_impact=cvss.modified_vuln_availability_impact,
+            modified_vuln_confidentiality_impact=cvss.modified_vuln_confidentiality_impact,
+            modified_sub_integrity_impact=cvss.modified_sub_integrity_impact,
+            modified_sub_availability_impact=cvss.modified_sub_availability_impact,
+            modified_sub_confidentiality_impact=cvss.modified_sub_confidentiality_impact,
+            safety=cvss.safety,
+            automatable=cvss.automatable,
+            recovery=cvss.recovery,
+            value_density=cvss.value_density,
+            vulnerability_response_effort=cvss.vulnerability_response_effort,
+            provider_urgency=cvss.provider_urgency,
+        ),
+    )
+
+
 def _convert_cve(cve: CVEModel) -> CVE:
     return CVE(
         id=cve.id,
@@ -123,6 +171,9 @@ def _convert_cve(cve: CVEModel) -> CVE:
             ],
             cvss_metric_v31=[
                 _convert_cvss_v3(cvss) for cvss in cve.cvss_metrics_v31
+            ],
+            cvss_metric_v40=[
+                _convert_cvss_v4(cvss) for cvss in cve.cvss_metrics_v40
             ],
         ),
         configurations=cve.configurations,
@@ -148,8 +199,10 @@ async def get_cve_items(
     cwe_id: str | None = None,
     cvss_v2_vector: str | None = None,
     cvss_v3_vector: str | None = None,
+    cvss_v4_vector: str | None = None,
     cvss_v2_severity: str | None = None,
     cvss_v3_severity: str | None = None,
+    cvss_v4_severity: str | None = None,
 ) -> list[CVEItem]:
     return [
         CVEItem(cve=_convert_cve(cve))
@@ -167,7 +220,9 @@ async def get_cve_items(
             cwe_id=cwe_id,
             cvss_v2_vector=cvss_v2_vector,
             cvss_v3_vector=cvss_v3_vector,
+            cvss_v4_vector=cvss_v4_vector,
             cvss_v2_severity=cvss_v2_severity,
             cvss_v3_severity=cvss_v3_severity,
+            cvss_v4_severity=cvss_v4_severity,
         )
     ]
