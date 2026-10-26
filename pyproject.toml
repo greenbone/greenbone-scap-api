@@ -26,7 +26,7 @@ packages = [{ include = "greenbone" }, { include = "tests", format = "sdist" }]
 python = "^3.11"
 shtab = ">=1.6.5"
 greenbone-scap = ">=0.1,<1.1"
-fastapi = ">=0.110,<0.144"
+fastapi = ">=0.110,<0.162"
 uvicorn = { extras = ["standard"], version = ">=0.29,<0.55" }
 
 [tool.poetry.group.dev.dependencies]
